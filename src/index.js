@@ -13,7 +13,7 @@ app.get('/recados', (request, response) => {
     const {title} = request.query;
 
     // estrutura condicional ternária
-    const results = title ? recados.filter(project => project.title.includes(title)) : recados;
+    const results = title ? recados.filter(recado => recado.title.includes(title)) : recados;
 
     return response.json(results);
 });
@@ -21,9 +21,9 @@ app.get('/recados', (request, response) => {
 // (POST)
 app.post('/recados', (request, response) => {
     // REQUEST BODY
-    const {title, owner} = request.body;
+    const {title, message} = request.body;
 
-    const recado = {id: uuid(), title, owner};
+    const recado = {id: uuid(), title, message};
 
     recados.push(recado);
 
@@ -35,9 +35,9 @@ app.post('/recados', (request, response) => {
 app.put('/recados/:id', (request, response) => {
     // ROUTE PARAMS
     const {id} = request.params;
-    const {title, owner} = request.body;
+    const {title, message} = request.body;
 
-    const recadoIndex = recados.findIndex((project) => project.id === id);
+    const recadoIndex = recados.findIndex((recado) => recado.id === id);
 
     if (recadoIndex < 0) {
         return response.status(400).json({error: "Project not found."});
@@ -46,7 +46,7 @@ app.put('/recados/:id', (request, response) => {
     const recado = {
         id, 
         title, 
-        owner
+        message
     };
 
     recados[recadoIndex] = recado;
@@ -59,7 +59,7 @@ app.delete('/recados/:id', (request, response) => {
 
     const {id} = request.params;
 
-    const recadoIndex = recados.findIndex((project) => project.id === id);
+    const recadoIndex = recados.findIndex((recado) => recado.id === id);
 
     if (recadoIndex < 0) {
         return response.status(400).json({error: "Project not found."});
